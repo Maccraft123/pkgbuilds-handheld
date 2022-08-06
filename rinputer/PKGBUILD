@@ -1,0 +1,35 @@
+# Maintainer: Maya Matuszczyk <maccraft123mc at gmail dot com>
+pkgname=rinputer
+pkgver=0.1.0
+pkgrel=0
+epoch=1
+pkgdesc="Input daemon providing X360 gamepad emulation for any other gamepad"
+arch=('any')
+url="https://github.com/R-ARM/Rinputer3.git"
+license=('custom')
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/R-ARM/Rinputer3/archive/$pkgver.tar.gz")
+sha512sums=('f10d50d59d8379c525cce8554edf6284734a0094fe9f9658a52821132f855e4a8519f519480c24ac40ce1d2e7714c02f7cebc1e4593f0d89e6fd638ac630def4')
+
+prepare() {
+  cd "Rinputer3-$pkgver"
+
+  cargo fetch --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "Rinputer3-$pkgver"
+
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --release --frozen
+}
+
+package() {
+  cd "Rinputer3-$pkgver"
+  install -Dm0755 "target/release/rinputer3" "$pkgdir/usr/bin/rinputer3"
+  install -Dm644 "Rinputer3.service" "$pkgdir/etc/systemd/system/Rinputer3.service"
+  install -Dm644 "rinputer3.ron" "$pkgdir/etc/rinputer3.ron"
+  install -Dm644 "README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+  install -Dm644 "LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
