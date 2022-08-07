@@ -1,10 +1,10 @@
 # Maintainer: Maya Matuszczyk <maccraft123mc at gmail dot com>
 pkgname=rinputer
 pkgver=0.1.0
-pkgrel=0
+pkgrel=1
 epoch=1
 pkgdesc="Input daemon providing X360 gamepad emulation for any other gamepad"
-arch=('any')
+arch=(x86_64)
 url="https://github.com/R-ARM/Rinputer3.git"
 license=('custom')
 makedepends=('cargo')
@@ -22,12 +22,13 @@ build() {
 
   export RUSTUP_TOOLCHAIN=stable
   export CARGO_TARGET_DIR=target
-  cargo build --release --frozen
+  export RUSTFLAGS="-C target-feature=+crt-static"
+  cargo build --release --frozen --target x86_64-unknown-linux-gnu
 }
 
 package() {
   cd "Rinputer3-$pkgver"
-  install -Dm0755 "target/release/rinputer3" "$pkgdir/usr/bin/rinputer3"
+  install -Dm0755 "target/x86_64-unknown-linux-gnu/release/rinputer3" "$pkgdir/usr/bin/rinputer3"
   install -Dm644 "Rinputer3.service" "$pkgdir/etc/systemd/system/Rinputer3.service"
   install -Dm644 "rinputer3.ron" "$pkgdir/etc/rinputer3.ron"
   install -Dm644 "README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
