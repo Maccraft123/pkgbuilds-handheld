@@ -1,6 +1,6 @@
 # Maintainer: Maya Matuszczyk <maccraft123mc at gmail dot com>
 pkgname=rinputer
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 epoch=1
 pkgdesc="Input daemon providing X360 gamepad emulation for any other gamepad"
@@ -9,7 +9,7 @@ url="https://github.com/R-ARM/Rinputer3.git"
 license=('custom')
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/R-ARM/Rinputer3/archive/$pkgver.tar.gz")
-sha512sums=('f10d50d59d8379c525cce8554edf6284734a0094fe9f9658a52821132f855e4a8519f519480c24ac40ce1d2e7714c02f7cebc1e4593f0d89e6fd638ac630def4')
+sha512sums=('5e2c90bc5ee9ed0c6bb3e74b906f669035dfd7cc2076ea00aabcfa40f362c5ce1b19600cfeaedececa1ab743b439386ee7e04c7a927b1cd169ec3d5c065950ec')
 
 prepare() {
   cd "Rinputer3-$pkgver"
