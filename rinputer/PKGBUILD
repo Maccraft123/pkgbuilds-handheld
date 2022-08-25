@@ -9,7 +9,7 @@ url="https://github.com/R-ARM/Rinputer3.git"
 license=('custom')
 makedepends=('cargo')
 source=("$pkgname-$pkgver.tar.gz::https://github.com/R-ARM/Rinputer3/archive/$pkgver.tar.gz")
-sha512sums=('94a5c8e6c849a3f50284cfc5ea1c8824b48ebf125547361e66940a11069ca633a7e4f475413d428c075c856a0d6704edd9433767cd3f05fbd40257480c2cd4fd')
+sha512sums=('f142808f0f7e98e435523d8cf775ba0fb3deab3039966530e702d89ad5a23275093d05caabc9ca34ca43cd942936788672f0e69b8ce80772dedcc5ab3da15a51')
 
 prepare() {
   cd "Rinputer3-$pkgver"
