@@ -11,8 +11,8 @@
 
 pkgbase=linux-handheld
 #pkgbase=linux-custom       # Build kernel with a different name
-_tag=v5.19
-pkgver=5.19
+_tag=v5.19.4
+pkgver=5.19.4
 pkgrel=1
 pkgdesc="Linux for x86 gaming hanehdls"
 arch=(x86_64)
@@ -26,9 +26,10 @@ makedepends=(
 options=('!strip')
 _srcname=linux-mainline
 source=(
-  "$_srcname::git+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git#tag=$_tag"
+  "$_srcname::git+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git#tag=$_tag"
   config         # the main kernel config file
   win600-orientation.patch
+  ayaneo-air-orientation.patch
 )
 validpgpkeys=(
   'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # Linus Torvalds
@@ -36,8 +37,9 @@ validpgpkeys=(
   'A2FF3A36AAA56654109064AB19802F8B0D70FC30'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            '5e34f17f45b3623bd8350b4d2c23ad7525b75c327cc49ec3dc37e3ee168d2f46'
-            '3d7aa0c7981ace90b2956b13201d870dc6896cb23db7c28ebb48eabd3276008b')
+            'c992dbc2a170bf644ebfaf1985a743fca85c6a9d65e52c7519c3d00ec8721194'
+            '3d7aa0c7981ace90b2956b13201d870dc6896cb23db7c28ebb48eabd3276008b'
+            'bda941c867ed5885759aa3c90cdcdfd5db3802b1b4c544d0f7ce0466eaf6be41')
 
 export KBUILD_BUILD_HOST=builder
 export KBUILD_BUILD_USER=$pkgbase
@@ -62,7 +64,7 @@ prepare() {
 
   echo "Setting config..."
   cp ../config .config
-  make olddefconfig
+  make oldconfig
 
   make -s kernelrelease > version
   echo "Prepared $pkgbase version $(<version)"
@@ -71,7 +73,6 @@ prepare() {
 build() {
   cd $_srcname
   make all
-  make htmldocs
 }
 
 _package() {
@@ -203,7 +204,7 @@ _package-docs() {
   ln -sr "$builddir/Documentation" "$pkgdir/usr/share/doc/$pkgbase"
 }
 
-pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-docs")
+pkgname=("$pkgbase" "$pkgbase-headers")
 for _p in "${pkgname[@]}"; do
   eval "package_$_p() {
     $(declare -f "_package${_p#$pkgbase}")
